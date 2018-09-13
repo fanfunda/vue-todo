@@ -20,12 +20,26 @@ const config = {
                 loader: 'vue-loader'
             },
             {
+                test: /\.jsx$/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
             },
             {
                 test: /\.styl$/,
-                loader: 'style-loader!css-loader!stylus-loader'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                        }
+                    },
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.(gif|jpg|jpeg|png|svg)$/,
@@ -55,7 +69,7 @@ const config = {
 if (isDev) {
     config.devtool = '#cheap-module-eval-source-map'
     config.devServer = {
-        port: 8000,
+        port: 7000,
         host: '0.0.0.0',
         overlay: {
             errors: true,
