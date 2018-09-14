@@ -25,10 +25,19 @@ const config = {
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                        }
+                    }
+                ]
             },
             {
-                test: /\.styl$/,
+                test: /\.styl(us)?$/,
                 use: [
                     'style-loader',
                     'css-loader',
