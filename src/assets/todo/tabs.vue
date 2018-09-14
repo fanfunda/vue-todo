@@ -1,13 +1,13 @@
 <template>
   <div class="helper">
-    <span class="left">2 items left</span>
+    <span class="left">{{unFinishedTodoLength}} items left</span>
     <span class="tabs">
       <span
         v-for="state in states"
         :key="state"
         :class="[state, filter === state ? 'actived' : '']"
         @click="toggleFilter(state)"
-      > 
+      >
         {{state}}
       </span>
     </span>
@@ -21,6 +21,11 @@ export default {
     filter: {
       type: String,
       required: true,
+    },
+    // 声明并获取todos数组
+    todos: {
+      type: Array,
+      required: true,
     }
   },
   data() {
@@ -28,12 +33,21 @@ export default {
       states: ['all', 'active', 'completed']
     }
   },
+  // 自动计算
+  computed: {
+    unFinishedTodoLength() {
+      // 筛选没有完成的todo数组长度
+      return this.todos.filter(todo => !todo.completed).length
+    }
+  },
   methods: {
+    // 触发clearAllCompleted事件，并将clearAllCompleted传回todo组件
     clearAllCompleted() {
-      
+      this.$emit('clearAllCompleted')
     },
+    // 触发toggle事件，并将toggleFilter和state数据传回todo组件
     toggleFilter(state) {
-      
+      this.$emit('toggle', state)
     }
   }
 }

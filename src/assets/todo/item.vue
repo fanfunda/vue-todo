@@ -20,6 +20,7 @@ export default {
   },
   methods: {
     deleteTodo() {
+      // 触发del事件，并将deleteTodo和id数据传回todo组件
       this.$emit('del', this.todo.id)
     }
   }
