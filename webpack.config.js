@@ -92,6 +92,10 @@ if (isDev) {
         new webpack.NoEmitOnErrorsPlugin()
     )
 } else {
+    config.entry = {
+        app: path.join(__dirname, 'src/index.js'),
+        vendor: ['vue']
+    }
     config.output.filename = '[name]-[chunkhash:8].js'
     config.module.rules.push(
         {
@@ -130,6 +134,25 @@ if (isDev) {
     config.plugins.push(
       new ExtractPlugin('[name]-[chunkhash:8].css'),
     )
+    config.optimization = {
+        splitChunks: {
+          cacheGroups: {
+            commons: {
+              chunks: 'initial',
+              minChunks: 2, maxInitialRequests: 5,
+              minSize: 0
+            },
+            vendor: {
+              test: /node_modules/,
+              chunks: 'initial',
+              name: 'vendor',
+              priority: 10,
+              enforce: true
+            }
+          }
+        },
+        runtimeChunk: true
+    }    
 }
 
 module.exports = config
